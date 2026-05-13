@@ -1,0 +1,831 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>亲子关系质量测评｜报告框架</title>
+  <style>
+    :root {
+      --ink: #1f2933;
+      --muted: #5f6f7a;
+      --line: #d9e2e8;
+      --bg: #f5f7f8;
+      --paper: #ffffff;
+      --primary: #176b73;
+      --primary-2: #0f4f59;
+      --soft: #e8f3f3;
+      --amber: #d19037;
+      --green: #4f8f64;
+      --red: #b85c5c;
+      --blue: #507ea7;
+      --shadow: 0 16px 40px rgba(31, 41, 51, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.65;
+    }
+
+    .hero {
+      min-height: 92vh;
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
+      gap: 36px;
+      align-items: center;
+      padding: 56px clamp(24px, 6vw, 80px) 34px;
+      background:
+        linear-gradient(110deg, rgba(11, 74, 82, 0.92) 0%, rgba(20, 107, 116, 0.88) 48%, rgba(245, 247, 248, 0.96) 48.2%, rgba(245, 247, 248, 1) 100%),
+        radial-gradient(circle at 18% 24%, rgba(255, 255, 255, 0.18), transparent 36%);
+    }
+
+    .hero h1 {
+      margin: 0 0 18px;
+      color: #fff;
+      font-size: clamp(34px, 4.6vw, 62px);
+      line-height: 1.15;
+      letter-spacing: 0;
+    }
+
+    .hero .lead {
+      max-width: 720px;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 18px;
+      margin: 0 0 28px;
+    }
+
+    .hero .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      font-size: 14px;
+    }
+
+    .bridge-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      padding: 28px;
+      border-radius: 8px;
+    }
+
+    .bridge-title {
+      font-weight: 700;
+      color: var(--primary-2);
+      margin-bottom: 14px;
+      font-size: 18px;
+    }
+
+    .bridge-visual {
+      position: relative;
+      height: 255px;
+      border-radius: 8px;
+      overflow: hidden;
+      background:
+        linear-gradient(#e8f3f3, #f7fbfb 58%, #dbe8ec 58%, #dbe8ec 100%);
+      border: 1px solid #cddde2;
+      margin: 14px 0 18px;
+    }
+
+    .water {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 76px;
+      background:
+        repeating-linear-gradient(145deg, rgba(80, 126, 167, 0.28) 0 16px, rgba(80, 126, 167, 0.12) 16px 32px),
+        #c7dce6;
+    }
+
+    .pier {
+      position: absolute;
+      bottom: 70px;
+      width: 46px;
+      height: 92px;
+      background: #7e8b91;
+      border: 1px solid #6c777d;
+      border-radius: 3px 3px 0 0;
+    }
+    .pier.left { left: 20%; }
+    .pier.right { right: 20%; }
+
+    .deck {
+      position: absolute;
+      left: 11%;
+      right: 11%;
+      top: 86px;
+      height: 26px;
+      background: #314e55;
+      border-radius: 4px;
+      box-shadow: 0 12px 0 #48656d;
+    }
+
+    .rail {
+      position: absolute;
+      left: 14%;
+      right: 14%;
+      top: 55px;
+      height: 18px;
+      border-top: 5px solid #d19037;
+      border-bottom: 5px solid #d19037;
+    }
+
+    .rail::before,
+    .rail::after {
+      content: "";
+      position: absolute;
+      top: -5px;
+      height: 18px;
+      width: 5px;
+      background: #d19037;
+    }
+    .rail::before { left: 18%; }
+    .rail::after { right: 18%; }
+
+    .bridge-label {
+      position: absolute;
+      background: #fff;
+      border: 1px solid #cddde2;
+      padding: 5px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      color: var(--ink);
+      box-shadow: 0 4px 10px rgba(31, 41, 51, 0.08);
+    }
+    .bridge-label.base { left: 15%; bottom: 34px; }
+    .bridge-label.deck-label { right: 12%; top: 118px; }
+    .bridge-label.guard { left: 12%; top: 22px; }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .mini {
+      background: #f7fbfb;
+      border: 1px solid #d8e6e9;
+      padding: 10px;
+      border-radius: 6px;
+      min-height: 74px;
+    }
+
+    .mini strong {
+      display: block;
+      color: var(--primary-2);
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+
+    .mini span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255, 255, 255, 0.96);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(10px);
+      padding: 10px clamp(18px, 5vw, 70px);
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    nav a {
+      color: var(--primary-2);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
+      margin-right: 20px;
+    }
+
+    main {
+      padding: 42px clamp(18px, 5vw, 70px) 80px;
+      max-width: 1440px;
+      margin: 0 auto;
+    }
+
+    section {
+      margin: 0 0 34px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(31, 41, 51, 0.04);
+      overflow: hidden;
+    }
+
+    .section-head {
+      padding: 22px 26px;
+      border-bottom: 1px solid var(--line);
+      background: #fbfcfc;
+    }
+
+    .eyebrow {
+      color: var(--amber);
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 26px;
+      letter-spacing: 0;
+      line-height: 1.25;
+      color: var(--primary-2);
+    }
+
+    .section-head p {
+      margin: 10px 0 0;
+      max-width: 940px;
+      color: var(--muted);
+    }
+
+    .content {
+      padding: 24px 26px 28px;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 20px;
+    }
+
+    .three-col {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      background: #fff;
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      color: var(--primary-2);
+      font-size: 18px;
+    }
+
+    .card p, .card li {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    ul {
+      padding-left: 20px;
+      margin: 10px 0 0;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      background: #fff;
+      font-size: 14px;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 12px 11px;
+      vertical-align: top;
+      text-align: left;
+    }
+
+    th {
+      background: #e8f3f3;
+      color: var(--primary-2);
+      font-weight: 700;
+    }
+
+    .tag {
+      display: inline-block;
+      border-radius: 4px;
+      background: #edf3f5;
+      color: #31515b;
+      padding: 3px 8px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .scorebar {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-top: 14px;
+    }
+
+    .score {
+      padding: 14px 12px;
+      min-height: 115px;
+      border-right: 1px solid rgba(255,255,255,0.46);
+      color: #17333a;
+    }
+    .score:last-child { border-right: 0; }
+    .score.s1 { background: #d7eadb; }
+    .score.s2 { background: #e6f0d0; }
+    .score.s3 { background: #f5edc6; }
+    .score.s4 { background: #f7dcc2; }
+    .score.s5 { background: #edd0c9; }
+    .score.s6 { background: #dec6c8; }
+    .score strong { display: block; font-size: 14px; margin-bottom: 4px; }
+    .score span { display: block; font-size: 12px; line-height: 1.45; }
+
+    .portrait-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .portrait {
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--primary);
+      border-radius: 8px;
+      padding: 14px;
+      background: #fff;
+      min-height: 154px;
+    }
+    .portrait:nth-child(3n) { border-left-color: var(--amber); }
+    .portrait:nth-child(4n) { border-left-color: var(--blue); }
+    .portrait .code {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+    .portrait h3 { font-size: 16px; margin: 6px 0 7px; }
+    .portrait p { font-size: 13px; color: var(--muted); margin: 0; }
+
+    .module-flow {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      counter-reset: module;
+    }
+
+    .module {
+      position: relative;
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 18px 14px 16px;
+      border-radius: 8px;
+      min-height: 166px;
+    }
+    .module::before {
+      counter-increment: module;
+      content: counter(module, decimal-leading-zero);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 28px;
+      border-radius: 4px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .module h3 { margin: 0 0 8px; font-size: 16px; color: var(--primary-2); }
+    .module p { margin: 0; color: var(--muted); font-size: 13px; }
+
+    details {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0;
+      background: #fff;
+      margin-bottom: 10px;
+    }
+    summary {
+      cursor: pointer;
+      padding: 14px 16px;
+      color: var(--primary-2);
+      font-weight: 700;
+      list-style: none;
+    }
+    summary::-webkit-details-marker { display: none; }
+    details .detail-body {
+      border-top: 1px solid var(--line);
+      padding: 0 16px 16px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .visual-row {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .visual {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      background: #fbfcfc;
+      min-height: 145px;
+    }
+    .visual-icon {
+      height: 44px;
+      margin-bottom: 12px;
+      border-radius: 6px;
+      background: linear-gradient(90deg, var(--primary), #70a7a4);
+      position: relative;
+      overflow: hidden;
+    }
+    .visual-icon::after {
+      content: "";
+      position: absolute;
+      inset: 10px 14px;
+      border-top: 5px solid rgba(255,255,255,0.86);
+      border-bottom: 5px solid rgba(255,255,255,0.54);
+    }
+    .visual h3 { margin: 0 0 7px; font-size: 15px; color: var(--primary-2); }
+    .visual p { margin: 0; color: var(--muted); font-size: 12px; }
+
+    .note {
+      border-left: 5px solid var(--amber);
+      background: #fff7e8;
+      color: #5d4b2d;
+      padding: 14px 16px;
+      border-radius: 6px;
+      margin-top: 14px;
+      font-size: 14px;
+    }
+
+    .footer {
+      margin-top: 30px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    @media (max-width: 980px) {
+      .hero {
+        grid-template-columns: 1fr;
+        background: linear-gradient(180deg, #0f4f59 0%, #176b73 58%, #f5f7f8 58.2%, #f5f7f8 100%);
+        padding-top: 38px;
+      }
+      .three-col, .two-col, .module-flow, .visual-row, .portrait-grid {
+        grid-template-columns: 1fr;
+      }
+      .scorebar { grid-template-columns: 1fr; }
+      .score { min-height: auto; border-right: 0; border-bottom: 1px solid rgba(255,255,255,0.7); }
+      table { font-size: 13px; }
+      th, td { padding: 10px 9px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div>
+      <h1>亲子关系质量测评<br>报告框架</h1>
+      <p class="lead">
+        以《最好的孩子在我家》中的“桥”为核心隐喻，评估父母的爱、关心和教育，能否通过关系这座桥，被孩子真正接收到。报告结构参考《李中莹·处事模式测试》：总指数、整体画像、维度解析、场景深读和行动建议分层呈现。
+      </p>
+      <div class="meta">
+        <span class="pill">测评对象：家长</span>
+        <span class="pill">主轴：亲子桥通达度</span>
+        <span class="pill">结构：3层6维8画像</span>
+        <span class="pill">报告：可按模块选读</span>
+      </div>
+    </div>
+    <aside class="bridge-card">
+      <div class="bridge-title">亲子桥模型</div>
+      <div class="bridge-visual" aria-label="亲子桥模型示意图">
+        <div class="water"></div>
+        <div class="pier left"></div>
+        <div class="pier right"></div>
+        <div class="deck"></div>
+        <div class="rail"></div>
+        <div class="bridge-label guard">护栏：边界与修复</div>
+        <div class="bridge-label deck-label">桥面：情绪与沟通</div>
+        <div class="bridge-label base">桥基：关系与接纳</div>
+      </div>
+      <div class="mini-grid">
+        <div class="mini"><strong>桥基</strong><span>关系优先、接纳看见</span></div>
+        <div class="mini"><strong>桥面</strong><span>情绪容纳、信任沟通</span></div>
+        <div class="mini"><strong>护栏</strong><span>边界空间、冲突修复</span></div>
+      </div>
+    </aside>
+  </header>
+
+  <nav>
+    <a href="#position">测评定位</a>
+    <a href="#dimensions">维度设计</a>
+    <a href="#scoring">组合逻辑</a>
+    <a href="#modules">报告模块</a>
+    <a href="#visuals">可视化呈现</a>
+    <a href="#next">后续研发</a>
+  </nav>
+
+  <main>
+    <section id="position">
+      <div class="section-head">
+        <div class="eyebrow">01｜测评定位</div>
+        <h2>它测的不是“父母爱不爱孩子”，而是这份爱能否通向孩子</h2>
+        <p>测评1的核心价值，是帮助家长看见当前亲子关系的通达程度：孩子是否感到安全、是否愿意表达、是否愿意接受引导，以及关系出现裂缝后是否能被修复。</p>
+      </div>
+      <div class="content two-col">
+        <div class="card">
+          <h3>测评主轴</h3>
+          <p><strong>亲子桥通达度：</strong>父母的爱、规则、关心、教育和提醒，能否通过关系这座桥，被孩子听见、感受到，并转化为孩子愿意靠近和愿意尝试的力量。</p>
+        </div>
+        <div class="card">
+          <h3>解释口径</h3>
+          <p>亲子关系不是父母单方面付出，也不是孩子单方面听话。关系像一座桥，桥通时，教育能抵达；桥堵时，父母说得再对，孩子也可能只感到压力、控制或不被理解。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="dimensions">
+      <div class="section-head">
+        <div class="eyebrow">02｜维度设计</div>
+        <h2>三层六维：桥基、桥面、护栏</h2>
+        <p>六个维度覆盖书中“关系比教育重要”“接纳和信任”“情绪流动”“空间与边界”“冲突后搭桥”等核心内容。每个维度 5 题，使用 5 级量表。</p>
+      </div>
+      <div class="content">
+        <table>
+          <thead>
+            <tr>
+              <th>层级</th>
+              <th>维度</th>
+              <th>测什么</th>
+              <th>高分状态</th>
+              <th>低分状态</th>
+              <th>书中依据</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="tag">桥基</span></td>
+              <td>关系优先</td>
+              <td>面对问题时，家长是否先守住关系，再处理事情。</td>
+              <td>能把孩子和问题分开，先保留关系温度。</td>
+              <td>容易先纠正、先压下去、先让事情恢复正常。</td>
+              <td>第1章、第2章、第3章：先关系，再成长，后学习。</td>
+            </tr>
+            <tr>
+              <td><span class="tag">桥基</span></td>
+              <td>接纳看见</td>
+              <td>家长能否看见孩子真实的状态、节奏和独特性。</td>
+              <td>能少用尺子和标签，多看见孩子行为背后的需要。</td>
+              <td>容易用标准、比较、标签定义孩子。</td>
+              <td>第3章、第5章、第7章：孩子是独立个体，肯定从看见开始。</td>
+            </tr>
+            <tr>
+              <td><span class="tag">桥面</span></td>
+              <td>情绪容纳</td>
+              <td>家里是否允许孩子表达难过、生气、害怕和委屈。</td>
+              <td>能先命名情绪、允许情绪，再进入问题处理。</td>
+              <td>容易讲道理、压情绪、用情绪反制情绪。</td>
+              <td>第6章：情绪是信号，父母要先稳住自己再帮助孩子。</td>
+            </tr>
+            <tr>
+              <td><span class="tag">桥面</span></td>
+              <td>信任沟通</td>
+              <td>孩子是否愿意和父母说真话，父母是否有走进孩子世界的动作。</td>
+              <td>承诺较稳定，倾听较充分，孩子有话更愿意说。</td>
+              <td>容易追问、审问、失信，孩子倾向隐瞒或敷衍。</td>
+              <td>第3章：搭桥；第7章：肯定五句；第11章：学习沟通。</td>
+            </tr>
+            <tr>
+              <td><span class="tag">护栏</span></td>
+              <td>边界空间</td>
+              <td>家长是否尊重孩子的物理空间、心理空间、说“不”和自主选择。</td>
+              <td>能在安全范围内放手，让孩子练习独立。</td>
+              <td>容易越界、代管、替孩子安排，或把空间理解成不管。</td>
+              <td>第8章：空间不是不管，而是有边界地放手。</td>
+            </tr>
+            <tr>
+              <td><span class="tag">护栏</span></td>
+              <td>冲突修复</td>
+              <td>发生争执、失控、误解后，家长是否能主动修复关系。</td>
+              <td>能道歉、复盘、重新连接，让关系回到可谈状态。</td>
+              <td>容易冷战、翻旧账、不了了之，裂痕慢慢累积。</td>
+              <td>第3章、第6章：桥需要一块一块铺，冲突后要能回到关系。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="scoring">
+      <div class="section-head">
+        <div class="eyebrow">03｜维度如何组合出结果</div>
+        <h2>总指数看整体通达度，三层高低组合出 8 种亲子桥画像</h2>
+        <p>评分采用“总指数、三层画像、六维解析、场景深读”的四层结果结构。这样既有整体诊断，也能让家长挑自己最关心的模块深入看。</p>
+      </div>
+      <div class="content">
+        <div class="three-col">
+          <div class="card">
+            <h3>计分基础</h3>
+            <ul>
+              <li>每维度 5 题，共 30 题。</li>
+              <li>每题 1 到 5 分，含少量反向题。</li>
+              <li>单维度 5 到 25 分，高低分界建议为 16 分。</li>
+              <li>总原始分 30 到 150 分，换算为 0 到 100 展示分。</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>三层组合</h3>
+            <ul>
+              <li>桥基分：关系优先、接纳看见的平均分。</li>
+              <li>桥面分：情绪容纳、信任沟通的平均分。</li>
+              <li>护栏分：边界空间、冲突修复的平均分。</li>
+              <li>三层各分高低，组合出 2×2×2 的 8 种整体画像。</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>用户阅读顺序</h3>
+            <ul>
+              <li>先看总指数区间，快速知道整体位置。</li>
+              <li>再看亲子桥画像，理解关系模式。</li>
+              <li>再看六个维度，找到优势和短板。</li>
+              <li>最后按痛点选择场景深读和行动卡。</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="scorebar" aria-label="总指数六档">
+          <div class="score s1"><strong>84-100 通达区</strong><span>关系桥整体通畅，教育更容易被孩子接收。</span></div>
+          <div class="score s2"><strong>67-83 稳固区</strong><span>大多数时候能靠近孩子，局部压力下会堵。</span></div>
+          <div class="score s3"><strong>51-66 调整区</strong><span>有关系意识，但现实场景中还会摇摆。</span></div>
+          <div class="score s4"><strong>34-50 修复区</strong><span>关系仍有基础，但桥面已有明显拥堵。</span></div>
+          <div class="score s5"><strong>17-33 高耗区</strong><span>爱和焦虑交织，容易形成高压互动。</span></div>
+          <div class="score s6"><strong>0-16 重建区</strong><span>不评价爱，只提示关系通道需要优先修复。</span></div>
+        </div>
+
+        <h3 style="margin-top:26px;color:var(--primary-2)">8 种整体画像建议</h3>
+        <div class="portrait-grid">
+          <div class="portrait"><div class="code">桥基高｜桥面高｜护栏高</div><h3>通达稳定型</h3><p>关系有温度，沟通能流动，边界和修复也较清楚。</p></div>
+          <div class="portrait"><div class="code">桥基低｜桥面高｜护栏高</div><h3>方法在线型</h3><p>能使用不少有效方法，但内在的关系定位还需要更稳。</p></div>
+          <div class="portrait"><div class="code">桥基高｜桥面低｜护栏高</div><h3>中段拥堵型</h3><p>有爱和边界意识，但情绪和真实沟通常常卡在桥面。</p></div>
+          <div class="portrait"><div class="code">桥基高｜桥面高｜护栏低</div><h3>护栏薄弱型</h3><p>亲近和沟通不差，但边界、空间或冲突修复还不稳定。</p></div>
+          <div class="portrait"><div class="code">桥基低｜桥面低｜护栏高</div><h3>规则远桥型</h3><p>规则和边界较清楚，但关系温度和沟通通道需要补强。</p></div>
+          <div class="portrait"><div class="code">桥基低｜桥面高｜护栏低</div><h3>临时通行型</h3><p>状态好时能聊，压力上来后容易缺少稳定底座和修复力。</p></div>
+          <div class="portrait"><div class="code">桥基高｜桥面低｜护栏低</div><h3>单向承重型</h3><p>父母很想守住关系，但孩子未必能接收到这份用心。</p></div>
+          <div class="portrait"><div class="code">桥基低｜桥面低｜护栏低</div><h3>重建起步型</h3><p>关系多处有堵点，适合从一个小而稳定的连接动作开始。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="modules">
+      <div class="section-head">
+        <div class="eyebrow">04｜报告写哪些内容模块</div>
+        <h2>报告要像一本可选读的“亲子桥维修手册”</h2>
+        <p>用户不一定从头读到尾，所以报告可以做成模块化：先给整体结论，再给可跳转的深读入口，让家长按自己的痛点选择。</p>
+      </div>
+      <div class="content">
+        <div class="module-flow">
+          <div class="module"><h3>结果首页</h3><p>展示总指数、桥型画像、三层分数、六维雷达图和本次最优先修复口。</p></div>
+          <div class="module"><h3>整体画像</h3><p>写 8 种画像。每个画像包括：关系状态、孩子可能的感受、父母的初心、当前卡点。</p></div>
+          <div class="module"><h3>六维解析</h3><p>每个维度写高分版和低分版：特征、原因、影响、行动建议。</p></div>
+          <div class="module"><h3>场景深读</h3><p>按学习、情绪、边界、冲突、青春期沟通等场景，给家长可选读入口。</p></div>
+          <div class="module"><h3>优先修复口</h3><p>根据最低维度或最低层级，告诉家长先修哪里，避免一次改太多。</p></div>
+          <div class="module"><h3>书中方法卡</h3><p>把幸福盒子、保本话术、五指法、肯定五句、硬币法、未来小电影做成行动卡。</p></div>
+          <div class="module"><h3>对话脚本</h3><p>给出可直接照着说的 6 类句式：道歉、倾听、拒绝、商量、安抚、复盘。</p></div>
+          <div class="module"><h3>延伸路径</h3><p>按结果推荐对应章节、线上课程、训练营或咨询产品，形成自然承接。</p></div>
+        </div>
+
+        <h3 style="margin-top:28px;color:var(--primary-2)">场景深读建议</h3>
+        <div class="two-col">
+          <details open>
+            <summary>学习沟通场景</summary>
+            <div class="detail-body">
+              组合维度：关系优先、情绪容纳、信任沟通。用于解释为什么一提作业就冲突，孩子为什么不愿意说学习上的真实困难，以及父母如何把“陪学”变成“搭桥”。
+            </div>
+          </details>
+          <details open>
+            <summary>情绪冲突场景</summary>
+            <div class="detail-body">
+              组合维度：情绪容纳、接纳看见、冲突修复。用于解释孩子哭闹、生气、沉默、摔东西时，父母是读懂求助信号，还是把情绪当成麻烦。
+            </div>
+          </details>
+          <details>
+            <summary>边界空间场景</summary>
+            <div class="detail-body">
+              组合维度：边界空间、信任沟通、接纳看见。用于解释孩子的隐私、房间、日记、选择权和说“不”，家长是否能把空间给到刚刚好。
+            </div>
+          </details>
+          <details>
+            <summary>冲突修复场景</summary>
+            <div class="detail-body">
+              组合维度：冲突修复、关系优先、情绪容纳。用于解释吵完之后父母是否能回到孩子身边，关系裂缝是否会被修，还是慢慢累积成疏远。
+            </div>
+          </details>
+          <details>
+            <summary>青春期通道场景</summary>
+            <div class="detail-body">
+              组合维度：边界空间、信任沟通、冲突修复。用于解释孩子长大后为什么关门、沉默、减少分享，以及家长如何重新获得进入孩子世界的许可。
+            </div>
+          </details>
+          <details>
+            <summary>家庭安全感场景</summary>
+            <div class="detail-body">
+              组合维度：关系优先、接纳看见、信任沟通。用于解释孩子心里的“家”是否安全，父母的爱是否以孩子能接受的方式出现。
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section id="visuals">
+      <div class="section-head">
+        <div class="eyebrow">05｜可视化呈现</div>
+        <h2>用图像降低理解成本，让报告看起来更像产品</h2>
+        <p>报告不只给文字，建议配合 5 类可视化模块。用户可以先看图，再决定要读哪一段内容。</p>
+      </div>
+      <div class="content">
+        <div class="visual-row">
+          <div class="visual"><div class="visual-icon"></div><h3>亲子桥总览图</h3><p>桥基、桥面、护栏三层用不同颜色展示高低状态。</p></div>
+          <div class="visual"><div class="visual-icon"></div><h3>六维雷达图</h3><p>快速看见哪一维是优势，哪一维是优先修复口。</p></div>
+          <div class="visual"><div class="visual-icon"></div><h3>通行灯指数</h3><p>总分六档用颜色呈现，让用户一眼理解当前关系通达度。</p></div>
+          <div class="visual"><div class="visual-icon"></div><h3>场景卡片</h3><p>学习、情绪、边界、冲突等痛点做成可点击卡片。</p></div>
+          <div class="visual"><div class="visual-icon"></div><h3>行动路径图</h3><p>7 天搭桥行动用日历或阶梯图呈现，降低执行阻力。</p></div>
+        </div>
+        <div class="note">
+          可视化不建议做成装饰图，而要服务阅读：图上直接显示“哪里通、哪里堵、先修哪里”。图片可以用于结果页顶部、维度卡片和行动计划页，让报告有价值感，也让家长能挑重点看。
+        </div>
+      </div>
+    </section>
+
+    <section id="next">
+      <div class="section-head">
+        <div class="eyebrow">06｜后续研发建议</div>
+        <h2>下一步可以直接进入题目和画像开发</h2>
+        <p>如果确认这个框架，后续可以按 30 题量表、8 个整体画像、12 个维度高低分说明、6 个场景深读模块推进。</p>
+      </div>
+      <div class="content">
+        <table>
+          <thead>
+            <tr>
+              <th>产出项</th>
+              <th>建议数量</th>
+              <th>说明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>题目</td>
+              <td>30 题</td>
+              <td>6 个维度，每维 5 题，建议每维 4 正 1 反，场景覆盖 3 到 18 岁孩子家长。</td>
+            </tr>
+            <tr>
+              <td>总指数区间</td>
+              <td>6 档</td>
+              <td>用于报告首页第一屏，告诉用户亲子桥整体处于哪个区间。</td>
+            </tr>
+            <tr>
+              <td>整体画像</td>
+              <td>8 个</td>
+              <td>由桥基、桥面、护栏三层高低组合得出，是用户最有记忆点的结果。</td>
+            </tr>
+            <tr>
+              <td>维度解析</td>
+              <td>12 组</td>
+              <td>6 维，每维高分版和低分版各一组，写特征、原因、影响和行动建议。</td>
+            </tr>
+            <tr>
+              <td>场景深读</td>
+              <td>5 到 6 个</td>
+              <td>让用户按痛点选择阅读，增强报告厚度和实用价值。</td>
+            </tr>
+            <tr>
+              <td>行动卡</td>
+              <td>6 到 10 张</td>
+              <td>承接书中工具，让报告从“看懂”进入“能做”。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="footer">本页为测评1《亲子关系质量测评》的报告框架草案，可继续扩展为题库、计分规则和用户端结果报告。</div>
+  </main>
+</body>
+</html>
